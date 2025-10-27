@@ -10,8 +10,8 @@ import utils.data_loader as data_loader
 
 # Page configuration
 st.set_page_config(
-    page_title="Premier League Analytics 24/25",
-    page_icon="⚽",
+    page_title="⚽ Premier League Analytics 24/25",
+    page_icon="app/assets/premier-league.svg",
     layout="wide",
     initial_sidebar_state="expanded"
 )

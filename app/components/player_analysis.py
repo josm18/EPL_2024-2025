@@ -14,29 +14,15 @@ def player_analysis():
     # Get filtered data and team colors
     df = st.session_state.data
     team_colors = get_team_colors()
-    
-    # Filtering options
-    st.sidebar.write("### Filters")
-    
-    # Position filter
-    positions = sorted(df['Position'].unique())
-    selected_positions = st.sidebar.multiselect("Filter by Position", positions)
-    
-    # Team filter
-    teams = sorted(df['Club'].unique())
-    selected_teams = st.sidebar.multiselect("Filter by Team", teams)
-    
-    # Minutes filter
-    min_minutes = st.sidebar.slider("Minimum Minutes Played", 0, 3000, 300)
-    
+          
     # Apply filters
     filtered_df = df.copy()
 
-    if selected_positions:
-        filtered_df = filtered_df[filtered_df['Position'].isin(selected_positions)]
-    if selected_teams:
-        filtered_df = filtered_df[filtered_df['Club'].isin(selected_teams)]
-    filtered_df = filtered_df[filtered_df['Minutes'] >= min_minutes]
+    if st.session_state.filters['position']:
+        filtered_df = filtered_df[filtered_df['Position'].isin(st.session_state.filters['position'])]
+    if st.session_state.filters['team']:
+        filtered_df = filtered_df[filtered_df['Club'].isin(st.session_state.filters['team'])]
+    filtered_df = filtered_df[filtered_df['Minutes'] >= st.session_state.filters['min_minutes']]
 
     
 

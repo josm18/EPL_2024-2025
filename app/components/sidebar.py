@@ -6,7 +6,7 @@ def sidebar():
     """
     Create and manage the sidebar filters
     """
-    st.sidebar.title("⚽ Navigation")
+    st.sidebar.title("🧭 Navigation")
     
     # Page selection
     page = st.sidebar.selectbox(
