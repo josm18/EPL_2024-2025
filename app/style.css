@@ -1,0 +1,55 @@
+.stApp {
+    background-color: #f5f5f5;
+}
+
+.main-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1f1f1f;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.metric-card {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.chart-container {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 10px;
+    margin: 1rem 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.sidebar .sidebar-content {
+    background-color: #2c3e50;
+}
+
+.sidebar .sidebar-content .stSelectbox {
+    background-color: white;
+    border-radius: 5px;
+}
+
+/* Custom styling for filters */
+.filter-section {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+/* Team colors for visual elements */
+.team-arsenal { color: #EF0107; }
+.team-chelsea { color: #034694; }
+.team-liverpool { color: #C8102E; }
+.team-manchester-city { color: #6CABDD; }
+.team-manchester-united { color: #DA291C; }
+.team-tottenham { color: #132257; }
+.team-west-ham { color: #7A263A; }
+.team-brighton { color: #0057B8; }
+
+/* Add more team colors as needed */
