@@ -4,6 +4,7 @@ from components.overview import overview
 from components.player_analysis import player_analysis
 from components.team_analysis import team_analysis
 from components.advanced_metrics import advanced_metrics
+from components.position_analysis import position_analysis
 import utils.data_loader as data_loader
 
 
@@ -30,6 +31,8 @@ def main():
     # Main content
     if page == "Overview":
         overview()
+    elif page == "Position Analysis":
+        position_analysis()
     elif page == "Player Analysis":
         player_analysis()
     elif page == "Team Analysis":

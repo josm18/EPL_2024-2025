@@ -52,7 +52,7 @@ def overview():
         title="Position Distribution"
     )
     st.plotly_chart(fig_pos)
-    
+
     # Team Performance Overview
     st.subheader("Team Performance Overview")
     team_stats = df.groupby('Club').agg({
@@ -60,7 +60,9 @@ def overview():
         'Assists': 'sum',
         'Goals Conceded': 'sum',
         'Shots': 'sum',
-        'Shots On Target': 'sum'
+        'Shots On Target': 'sum',
+        'Goals_per_90': 'mean',
+        'Defensive_per_90': 'mean'
     }).reset_index()
     
     fig_team = px.bar(
@@ -108,6 +110,24 @@ def overview():
         title="Defensive Efficiency by Team"
     )
     st.plotly_chart(fig_defensive)
+    
+    # Scatter plot: Offense vs Defense
+    st.subheader("Team Offensive and Defensive Balance")
+
+    fig_offense_defense = px.scatter(
+        team_stats,
+        x='Goals_per_90',
+        y='Defensive_per_90',
+        color='Club',
+        color_discrete_map=team_colors,
+        text='Club'
+    )
+    fig_offense_defense.update_layout(
+        title='Team Offensive-Defensive Balance',
+        xaxis_title='Goals per 90min (team average)',
+        yaxis_title='Defensive actions per 90min'
+    )
+    st.plotly_chart(fig_offense_defense)
 
     # Team buildup analysis
     st.subheader("Team Build-Up Analysis")
@@ -145,3 +165,5 @@ def overview():
         title="Final Third Play by Team"
     )
     st.plotly_chart(fig_finalThird)
+
+

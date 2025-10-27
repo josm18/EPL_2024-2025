@@ -180,24 +180,24 @@ def team_analysis():
         team_colors_map = get_team_colors()
         
         for team in team_defense['Club']:
-            team_data = team_stats[team_stats['Club'] == team]
+            team_def_data = team_defense[team_defense['Club'] == team]
             # values.append(values[0])  # Complete the circle
             
             fig_defense.add_trace(go.Scatterpolar(
-                r=[team_data[f'{metric}_norm'].iloc[0] for metric in metrics],
+                r=[team_def_data[f'{metric}_norm'].iloc[0] for metric in metrics],
                 theta=metrics,
                 name=team,
                 hoverinfo='text',
                 hovertext=[
-                    f"{metric}: {team_data[metric].iloc[0]:.1f}<br>Relative: {team_data[f'{metric}_norm'].iloc[0]:.1%}"
+                    f"{metric}: {team_def_data[metric].iloc[0]:.1f}<br>Relative: {team_def_data[f'{metric}_norm'].iloc[0]:.1%}"
                     for metric in metrics
                 ],
                 line=dict(color=team_colors_map[team], width=0),
                 fill='toself'
             ))
         
-        fig_defense.update_layout(
-            polar=dict(radialaxis=dict(visible=True, showticklabels=True)),
+        fig_defense.update_layout(  
+            polar=dict(radialaxis=dict(visible=True, showticklabels=False, showline=False)),
             showlegend=True,
             title="Defensive Metrics Comparison"
         )

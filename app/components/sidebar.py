@@ -11,7 +11,7 @@ def sidebar():
     # Page selection
     page = st.sidebar.selectbox(
         "Choose a section",
-        ["Overview", "Player Analysis", "Team Analysis", "Advanced Metrics"]
+        ["Overview", "Position Analysis", "Player Analysis", "Team Analysis", "Advanced Metrics"]
     )
     
     st.sidebar.markdown("---")

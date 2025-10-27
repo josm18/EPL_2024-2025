@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from pathlib import Path
 import utils.group_stats as gs
 import os
@@ -15,12 +16,8 @@ def load_data():
 
     # Data preprocessing
     df['Minutes_Played'] = pd.to_numeric(df['Minutes'], errors='coerce')
-    df['Goals_per_90'] = df['Goals'] * 90 / df['Minutes_Played']
-    df['Assists_per_90'] = df['Assists'] * 90 / df['Minutes_Played']
     
-    # Calculate additional metrics
-    df['Goal_Contributions'] = df['Goals'] + df['Assists']
-    df['Shot_Accuracy'] = df['Shots On Target'] / df['Shots'] * 100
+    df = create_performance_metrics(df)
 
     # State performance scores
     df['Forward_Score'] = df.apply(gs.calculate_forward_score, axis=1)
@@ -74,3 +71,42 @@ def filter_data(df, team=None, position=None, min_minutes=0):
         filtered_df = filtered_df[filtered_df['Minutes'] >= min_minutes]
         
     return filtered_df
+
+
+def create_performance_metrics(df):
+    """Creates advanced performance metrics"""
+    # Offensive efficiency metrics
+
+    # Avoid division by zero and handle missing columns gracefully
+    df = df.copy()
+
+    # Set to 0 if Minutes is zero or missing for any per 90 calculation
+    df['Goals_per_90'] = np.where(df['Minutes'] > 0, (df['Goals'] / df['Minutes']) * 90, 0)
+    df['Assists_per_90'] = np.where(df['Minutes'] > 0, (df['Assists'] / df['Minutes']) * 90, 0)
+    df['Goal_Contributions'] = df['Goals'] + df['Assists']
+    df['G+A_per_90'] = df['Goals_per_90'] + df['Assists_per_90']
+    df['Shot_Accuracy'] = np.where(df['Shots'] > 0, 
+                                   (df['Shots On Target'] / df['Shots']) * 100, 0)
+    
+    # Playmaking metrics
+    df['Key_Passes_per_90'] = np.where(df['Minutes'] > 0, (df['Through Balls'] / df['Minutes']) * 90, 0)
+    df['Progressive_Actions'] = df['Progressive Carries'] + df['Successful fThird Passes']
+    df['Progressive_per_90'] = np.where(df['Minutes'] > 0, (df['Progressive_Actions'] / df['Minutes']) * 90, 0)
+
+    # Defensive metrics
+    df['Defensive_Actions'] = df['Tackles'] + df['Interceptions'] + df['Clearances']
+    df['Defensive_per_90'] = np.where(df['Minutes'] > 0, (df['Defensive_Actions'] / df['Minutes']) * 90, 0)
+    df['Duel_Success_Rate'] = np.where(
+        (df['Ground Duels'] + df['Aerial Duels']) > 0,
+        ((df['gDuels Won'] + df['aDuels Won']) / (df['Ground Duels'] + df['Aerial Duels'])) * 100,
+        0
+    )
+
+    # Goalkeeper metrics
+    df['Clean_Sheet_Rate'] = np.where(
+        df['Appearances'] > 0,
+        (df['Clean Sheets'] / df['Appearances']) * 100,
+        0
+    )
+
+    return df
